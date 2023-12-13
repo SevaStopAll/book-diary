@@ -1,0 +1,21 @@
+server:
+  port: 9005
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/book-diary
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    default-schema: public
+  jpa:
+    show-sql: true
+    generate-ddl: false
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true

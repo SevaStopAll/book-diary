@@ -1,0 +1,6 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001
+      author: Sevastopall
+      sqlFile:
+        - path: db/changelog/init/001-create-tables.sql
