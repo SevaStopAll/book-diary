@@ -1,47 +1,44 @@
 package ru.sevastopall.readersDairy.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import ru.sevastopall.readersDairy.model.Role;
+import ru.sevastopall.readersDairy.model.User;
 import ru.sevastopall.readersDairy.service.RoleService;
 import ru.sevastopall.readersDairy.service.UserService;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @Controller
+@RequestMapping("/users")
 public class UserController {
     private final UserService userService;
     private final RoleService roleService;
 
     @GetMapping("/register")
     public String getRegistationPage(Model model) {
-        model.addAttribute("roles", roles.findAll());
-        model.addAttribute("classes", classes.findAll());
         return "users/register";
     }
 
     @PostMapping("/register")
-    public String register(Model model, @ModelAttribute User user, String[] roleId, String classId) {
-        user.setConfirmed(false);
-        List<Role> roleSet = new ArrayList<>();
-        for (String id : roleId) {
-            roleSet.add(roles.findById(Integer.parseInt(id)).get());
-        }
-        user.setRoles(roleSet);
-        user.setLogin(getMd5Hash(user.getLogin()));
-        var savedUser = userService.create(user);
-        if (user.getRoles().get(0).getName().equals("Teacher")) {
-            teacherRegister(user);
-        } else if (user.getRoles().get(0).getName().equals("Student")) {
-            studentRegister(user, classId);
-        }
+    public String register(Model model, @ModelAttribute User user) {
+        Role role = roleService.findByName("ROLE_USER");
+        Set<Role> roles = new HashSet<>();
+        roles.add(role);
+        user.setRoles(roles);
+        user.setPassword(getMd5Hash(user.getPassword()));
+        var savedUser = userService.save(user);
         if (savedUser == null) {
             model.addAttribute("message", "Ошибка регистрации. Логин занят.");
             return "error/404";
@@ -57,10 +54,10 @@ public class UserController {
     @PostMapping("/login")
     public String loginUser(@ModelAttribute User user, Model model, HttpServletRequest request) {
         var userOptional = userService
-                .findUserByLoginAndPassword(getMd5Hash(user.getLogin()), user.getPassword());
+                .findByUsernameAndPassword(user.getUsername(), getMd5Hash(user.getPassword()));
         if (userOptional.isEmpty()) {
             model.addAttribute("error", "Почта или пароль введены неверно");
-            return "error/404";
+            return "errors/404";
         }
         var session = request.getSession();
         session.setAttribute("user", userOptional.get());
