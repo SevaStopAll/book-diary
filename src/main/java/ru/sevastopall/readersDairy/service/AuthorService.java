@@ -10,9 +10,9 @@ public interface AuthorService {
 
     Author findById(long id);
 
-    Author findByFirstName(String firstName);
+    List<Author> findByFirstName(String firstName);
 
     Author findByLastName(String lastName);
 
-    List<Author> findByBirthdate(LocalDate localDate);
+    //TODO проверить реализацию поиска по ГОДУ РОЖДЕНИЯ
 }

@@ -25,7 +25,7 @@ public class SimpleAuthorService implements AuthorService {
     }
 
     @Override
-    public Author findByFirstName(String firstName) {
+    public List<Author> findByFirstName(String firstName) {
         return authorRepository.findByFirstName(firstName);
     }
 
@@ -34,8 +34,4 @@ public class SimpleAuthorService implements AuthorService {
         return authorRepository.findByLastName(lastName);
     }
 
-    @Override
-    public List<Author> findByBirthdate(LocalDate localDate) {
-        return authorRepository.findByBirthDate_Year(localDate.getYear());
-    }
 }

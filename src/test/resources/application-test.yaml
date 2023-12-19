@@ -1,0 +1,32 @@
+spring:
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        order_inserts: true
+        jdbc:
+          batch_size: 200
+    show-sql: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    read-pool:
+      enabled: true
+    password: test
+    username: test
+    url:
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      pool-name: rw-pool
+      maximum-pool-size: 3
+  liquibase:
+    default-schema: public
+  main:
+    allow-bean-definition-overriding: true
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.engine.internal: ERROR
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+
+

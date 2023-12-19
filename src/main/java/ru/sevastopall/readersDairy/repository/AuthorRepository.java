@@ -10,7 +10,5 @@ import java.util.List;
 public interface AuthorRepository extends JpaRepository<Author, Long> {
     Author findByLastName(String lastName);
 
-    Author findByFirstName(String firstName);
-
-    List<Author> findByBirthDate_Year(int localDate);
+    List<Author> findByFirstName(String firstName);
 }
