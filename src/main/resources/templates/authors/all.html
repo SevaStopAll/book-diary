@@ -70,10 +70,26 @@
         </div>
     </nav>
 
-    <div class="information">
-        <h3>Читательский дневник</h3>
-        <p>Привет! Данное приложение в стадии разработки. Мои текущие планы: </p>
-        <p>Проверка базового функционала, построение страниц с необходимым функционалом: Личный кабинет с статистикой, рецензии, книги. Обложки и их загрузка. </p>
+    <div class="authors">
+        <div class="row">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Фамилия</th>
+                    <th scope="col">Имя</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="author: ${authors}">
+                    <td><a th:text="${author.lastName}" th:href="@{/authors/{authorId}(authorId=${author.id})}"></a></td>
+                    <td><a th:text="${author.firstName}"></a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="back">
+
     </div>
 </div>
 

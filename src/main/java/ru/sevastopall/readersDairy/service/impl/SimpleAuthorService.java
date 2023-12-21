@@ -34,4 +34,9 @@ public class SimpleAuthorService implements AuthorService {
         return authorRepository.findByLastName(lastName);
     }
 
+    @Override
+    public List<Author> findAll() {
+        return authorRepository.findAll();
+    }
+
 }

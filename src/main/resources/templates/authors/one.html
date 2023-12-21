@@ -70,10 +70,43 @@
         </div>
     </nav>
 
-    <div class="information">
-        <h3>Читательский дневник</h3>
-        <p>Привет! Данное приложение в стадии разработки. Мои текущие планы: </p>
-        <p>Проверка базового функционала, построение страниц с необходимым функционалом: Личный кабинет с статистикой, рецензии, книги. Обложки и их загрузка. </p>
+    <div class="card-body">
+        <form class="mt-3" th:action="@{/authors/update}" method="post" th:object="${author}">
+            <input type="hidden" name="id" th:field="*{id}">
+
+            <div class="form-group">
+                <label for="firstName">Имя</label>
+                <input type="text" class="form-control" name="firstName" id="firstName" th:field="*{firstName}">
+            </div>
+            <div class="form-group">
+                <label for="lastName">Фамилия</label>
+                <input type="text" class="form-control" name="lastName" id="lastName" th:field="*{lastName}">
+            </div>
+            <div class="form-group">
+                <label for="biography">Биография</label>
+                <input type="text" class="form-control" name="biography" id="biography" th:field="*{biography}">
+            </div>
+
+            <div class="mb-3">
+                <label for="birthDate" class="form-label"><b>Дата рождения</b></label>
+                <input type="date" class="form-control" id="birthDate" name="birthDate" th:value="${biography}" >
+            </div>
+
+            <div class="mb-3 row">
+                <div class="col-6"></div>
+                <div class="col-6">
+                    <div class="row">
+                        <div class="col-4"><a class="btn btn-light w-100" th:href="@{/index}">Cancel</a></div>
+                        <div class="col-4"><button class="btn btn-success w-100" type="submit">Update</button></div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="authorInfo">
+        <p class="fs-1"><a th:text="${author.lastName}"></a>  <a th:text="${author.firstName}"></a> </p>
+        <p class="fs-1"><a th:text="${author.biography}"></a>  <a th:text="${author.birthDate}"></a> </p>
     </div>
 </div>
 

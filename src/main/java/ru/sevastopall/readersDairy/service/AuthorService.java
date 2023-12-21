@@ -15,4 +15,6 @@ public interface AuthorService {
     Author findByLastName(String lastName);
 
     //TODO проверить реализацию поиска по ГОДУ РОЖДЕНИЯ
+
+    List<Author> findAll();
 }

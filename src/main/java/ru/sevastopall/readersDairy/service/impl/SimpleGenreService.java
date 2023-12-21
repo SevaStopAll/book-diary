@@ -22,4 +22,9 @@ public class SimpleGenreService implements GenreService {
     public List<Genre> findAll() {
         return genreRepository.findAll();
     }
+
+    @Override
+    public Genre save(Genre genre) {
+        return genreRepository.save(genre);
+    }
 }
