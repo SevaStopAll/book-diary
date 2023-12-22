@@ -8,6 +8,7 @@ import ru.sevastopall.readersDairy.service.AuthorService;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -37,6 +38,10 @@ public class SimpleAuthorService implements AuthorService {
     @Override
     public List<Author> findAll() {
         return authorRepository.findAll();
+    }
+    @Override
+    public Optional<Author> findByFirstNameAndLastName(String firstName, String lastName) {
+        return authorRepository.findByFirstNameIgnoreCaseAndLastNameIgnoreCase(firstName, lastName);
     }
 
 }

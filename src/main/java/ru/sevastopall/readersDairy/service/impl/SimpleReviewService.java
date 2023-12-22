@@ -35,4 +35,9 @@ public class SimpleReviewService implements ReviewService {
     public List<Review> findByUser(User user) {
         return reviewRepository.findByUser(user);
     }
+
+    @Override
+    public List<Review> findAll() {
+        return reviewRepository.findAll();
+    }
 }

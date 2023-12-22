@@ -22,5 +22,5 @@ public class Comment {
 
     private String text;
 
-    private LocalDate publication_time;
+    private LocalDate publicationTime;
 }

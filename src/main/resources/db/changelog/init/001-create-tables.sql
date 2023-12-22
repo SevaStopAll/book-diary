@@ -63,7 +63,6 @@ CREATE TABLE IF NOT EXISTS public.reviews
     id serial primary key,
     publication_time timestamp without time zone,
     book int references books(id),
-    author int references users(id),
     title varchar(256),
     text varchar(32192),
     mark int

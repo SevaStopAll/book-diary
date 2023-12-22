@@ -4,3 +4,8 @@ databaseChangeLog:
       author: Sevastopall
       sqlFile:
         - path: db/changelog/init/001-create-tables.sql
+  - changeSet:
+      id: 002
+      author: Sevastopall
+      sqlFile:
+        - path: db/changelog/init/002-insert-genres-table.sql

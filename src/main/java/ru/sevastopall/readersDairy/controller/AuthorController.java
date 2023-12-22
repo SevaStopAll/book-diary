@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ru.sevastopall.readersDairy.model.Author;
 import ru.sevastopall.readersDairy.service.AuthorService;
 
-import java.time.format.DateTimeFormatter;
-
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/authors")
@@ -42,7 +40,7 @@ public class AuthorController {
         model.addAttribute("author", author);
         return "authors/one";
     }
-    //TODO забить форму по умолчанию в ДАТУ РОЖДЕНИЯ
+
     @PostMapping("/update")
     public String updateAuthor(@ModelAttribute Author author) {
         authorService.save(author);

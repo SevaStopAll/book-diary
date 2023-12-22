@@ -7,6 +7,7 @@ import ru.sevastopall.readersDairy.repository.BookRepository;
 import ru.sevastopall.readersDairy.service.BookService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -27,5 +28,10 @@ public class SimpleBookService implements BookService {
     @Override
     public List<Book> findAll() {
         return bookRepository.findAll();
+    }
+
+    @Override
+    public Optional<Book> findByTitle(String title) {
+        return bookRepository.findByTitleIgnoreCase(title);
     }
 }

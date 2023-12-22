@@ -15,4 +15,6 @@ public interface ReviewService {
     List<Review> findByBook(Book book);
 
     List<Review> findByUser(User user);
+
+    List<Review> findAll();
 }
