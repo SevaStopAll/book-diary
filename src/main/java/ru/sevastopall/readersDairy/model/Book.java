@@ -20,4 +20,6 @@ public class Book {
     @JoinColumn(name = "genre_id")
     private Genre genre;
 
+    @Column(name = "file_id")
+    private long fileId;
 }

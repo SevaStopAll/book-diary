@@ -2,9 +2,14 @@ package ru.sevastopall.readersDairy.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import ru.sevastopall.readersDairy.dto.FileDto;
 import ru.sevastopall.readersDairy.model.Author;
+import ru.sevastopall.readersDairy.model.File;
 import ru.sevastopall.readersDairy.repository.AuthorRepository;
+import ru.sevastopall.readersDairy.repository.FileRepository;
 import ru.sevastopall.readersDairy.service.AuthorService;
+import ru.sevastopall.readersDairy.service.FileService;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -14,9 +19,15 @@ import java.util.Optional;
 @Service
 public class SimpleAuthorService implements AuthorService {
     private final AuthorRepository authorRepository;
+    private final FileService fileService;
 
     @Override
-    public Author save(Author author) {
+    public Author save(Author author, FileDto image) {
+        if (image.getContent() .length == 0) {
+
+        }
+        File savedImage = fileService.save(image);
+        author.setFileId(savedImage.getId());
         return authorRepository.save(author);
     }
 

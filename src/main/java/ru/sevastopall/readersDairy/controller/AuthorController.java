@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import ru.sevastopall.readersDairy.model.Author;
 import ru.sevastopall.readersDairy.service.AuthorService;
 
@@ -23,8 +25,8 @@ public class AuthorController {
     }
 
     @PostMapping("/create")
-    public String saveAuthor(@ModelAttribute Author author) {
-        authorService.save(author);
+    public String saveAuthor(@ModelAttribute Author author, @RequestParam MultipartFile file) {
+        authorService.save(author, file);
         return "redirect:/";
     }
 
@@ -42,8 +44,8 @@ public class AuthorController {
     }
 
     @PostMapping("/update")
-    public String updateAuthor(@ModelAttribute Author author) {
-        authorService.save(author);
+    public String updateAuthor(@ModelAttribute Author author, @RequestParam MultipartFile file ) {
+        authorService.save(author, file);
         return "redirect:/index";
     }
 }

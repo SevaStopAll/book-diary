@@ -1,6 +1,9 @@
 server:
   port: 9005
 
+file:
+  directory=files
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/book-diary
@@ -19,3 +22,6 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
+  servlet:
+    multipart:
+      max-file-size=10MB

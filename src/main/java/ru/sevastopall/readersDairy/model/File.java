@@ -1,29 +1,19 @@
 package ru.sevastopall.readersDairy.model;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
 
-import java.time.LocalDate;
-@Entity(name = "authors")
+@Entity(name = "files")
 @Data
-public class Author {
-
+public class File {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private LocalDate birthDate;
+    private String name;
 
-    private String firstName;
-
-    private String lastName;
-
-    private String biography;
-
-    @Column(name = "file_id")
-    private long fileId;
+    private String path;
 }
