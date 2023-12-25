@@ -70,8 +70,11 @@ public class BookController {
     }
 
     @PostMapping("/update")
-    public String updateBook(@ModelAttribute Book book) {
-        bookService.save(book);
+    public String updateBook(@ModelAttribute Book book, @RequestParam MultipartFile file) throws IOException {
+        FileDto fileDto = new FileDto();
+        fileDto.setName(file.getName());
+        fileDto.setContent(file.getBytes());
+        bookService.save(book, fileDto);
         return "redirect:/index";
     }
 }

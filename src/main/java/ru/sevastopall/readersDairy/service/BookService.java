@@ -10,6 +10,8 @@ import java.util.Optional;
 public interface BookService {
     Book save(Book book, FileDto image);
 
+    Book saveWithoutPicture(Book book);
+
     Book findById(long id);
 
     Optional<Book> findByTitle(String title);

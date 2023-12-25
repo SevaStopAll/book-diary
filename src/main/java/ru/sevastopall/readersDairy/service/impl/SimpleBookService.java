@@ -26,6 +26,10 @@ public class SimpleBookService implements BookService {
         book.setFileId(savedImage.getId());
         return bookRepository.save(book);
     }
+    @Override
+    public Book saveWithoutPicture(Book book) {
+        return bookRepository.save(book);
+    }
 
     @Override
     public Book findById(long id) {
