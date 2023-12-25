@@ -8,12 +8,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import ru.sevastopall.readersDairy.dto.FileDto;
 import ru.sevastopall.readersDairy.model.Author;
 import ru.sevastopall.readersDairy.model.Book;
 import ru.sevastopall.readersDairy.service.AuthorService;
 import ru.sevastopall.readersDairy.service.BookService;
 import ru.sevastopall.readersDairy.service.GenreService;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @Controller
@@ -32,7 +36,7 @@ public class BookController {
     }
 
     @PostMapping("/create")
-    public String saveBook(@ModelAttribute Book book, String authorFirstName, String authorLastName, String genreId) {
+    public String saveBook(@ModelAttribute Book book, String authorFirstName, String authorLastName, String genreId, @RequestParam MultipartFile file) throws IOException {
         Optional<Author> mayBeAuthor = authorService.findByFirstNameAndLastName(authorFirstName, authorLastName);
         if (mayBeAuthor.isPresent()) {
             book.setAuthor(mayBeAuthor.get());
@@ -40,11 +44,14 @@ public class BookController {
             Author newAuthor = new Author();
             newAuthor.setFirstName(authorFirstName);
             newAuthor.setLastName(authorLastName);
-            Author savedAuthor = authorService.save(newAuthor);
+            Author savedAuthor = authorService.save(newAuthor, new FileDto());
             book.setAuthor(savedAuthor);
         }
         book.setGenre(genreService.findById(Integer.parseInt(genreId)));
-        bookService.save(book);
+        FileDto fileDto = new FileDto();
+        fileDto.setName(file.getName());
+        fileDto.setContent(file.getBytes());
+        bookService.save(book, fileDto);
         return "redirect:/";
     }
 
@@ -63,8 +70,11 @@ public class BookController {
     }
 
     @PostMapping("/update")
-    public String updateBook(@ModelAttribute Book book) {
-        bookService.save(book);
+    public String updateBook(@ModelAttribute Book book, @RequestParam MultipartFile file) throws IOException {
+        FileDto fileDto = new FileDto();
+        fileDto.setName(file.getName());
+        fileDto.setContent(file.getBytes());
+        bookService.save(book, fileDto);
         return "redirect:/index";
     }
 }

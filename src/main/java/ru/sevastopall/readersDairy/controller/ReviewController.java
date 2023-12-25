@@ -45,7 +45,7 @@ public class ReviewController {
         } else {
             Book newBook = new Book();
             newBook.setTitle(bookName);
-            Book savedBook = bookService.save(newBook);
+            Book savedBook = bookService.saveWithoutPicture(newBook);
             review.setBook(savedBook);
         }
         review.setPublicationTime(LocalDateTime.now());

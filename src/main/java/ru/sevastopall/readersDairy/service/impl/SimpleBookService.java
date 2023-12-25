@@ -2,9 +2,13 @@ package ru.sevastopall.readersDairy.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import ru.sevastopall.readersDairy.dto.FileDto;
 import ru.sevastopall.readersDairy.model.Book;
+import ru.sevastopall.readersDairy.model.File;
 import ru.sevastopall.readersDairy.repository.BookRepository;
 import ru.sevastopall.readersDairy.service.BookService;
+import ru.sevastopall.readersDairy.service.FileService;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,10 +17,17 @@ import java.util.Optional;
 @Service
 public class SimpleBookService implements BookService {
     private final BookRepository bookRepository;
+    private final FileService fileService;
 
 
     @Override
-    public Book save(Book book) {
+    public Book save(Book book, FileDto image) {
+        File savedImage = fileService.save(image);
+        book.setFileId(savedImage.getId());
+        return bookRepository.save(book);
+    }
+    @Override
+    public Book saveWithoutPicture(Book book) {
         return bookRepository.save(book);
     }
 
