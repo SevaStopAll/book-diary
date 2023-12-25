@@ -59,8 +59,6 @@
                                 </ul>
                         </ul>
                     </div>
-
-
                 </div>
                 <div class="d-flex" th:if="${user.username != 'Гость'}">
                     <a class="nav-link text-secondary me-3" th:href="@{/users/{userId}(userId=${user.id})}" th:text="${user.username}"></a>
@@ -70,47 +68,12 @@
         </div>
     </nav>
 
-    <div class="card-body">
-        <form class="mt-3" th:action="@{/authors/update}" method="post" th:object="${author}">
-            <input type="hidden" name="id" th:field="*{id}">
-
-            <div class="form-group">
-                <label for="firstName">Имя</label>
-                <input type="text" class="form-control" name="firstName" id="firstName" th:field="*{firstName}">
-            </div>
-            <div class="form-group">
-                <label for="lastName">Фамилия</label>
-                <input type="text" class="form-control" name="lastName" id="lastName" th:field="*{lastName}">
-            </div>
-            <div class="form-group">
-                <label for="biography">Биография</label>
-                <input type="text" class="form-control" name="biography" id="biography" th:field="*{biography}">
-            </div>
-
-            <div class="col-3">
-                <div class="mb-3">
-                    <img th:src="@{/files/{fileId}(fileId=*{fileId})}" class="w-100" alt="No image">
-                </div>
-                <div class="mb-3">
-                    <input class="form-control form-control-sm w-100" type="file" id="formFile" name="file">
-                </div>
-            </div>
-
-            <div class="mb-3 row">
-                <div class="col-6"></div>
-                <div class="col-6">
-                    <div class="row">
-                        <div class="col-4"><a class="btn btn-light w-100" th:href="@{/index}">Cancel</a></div>
-                        <div class="col-4"><button class="btn btn-success w-100" type="submit">Update</button></div>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-
     <div class="authorInfo">
         <p class="fs-1"><a th:text="${author.lastName}"></a>  <a th:text="${author.firstName}"></a> </p>
         <p class="fs-1"><a th:text="${author.biography}"></a>  <a th:text="${author.birthDate}"></a> </p>
+        <div class="mb-3">
+            <img th:src="@{/files/{fileId}(fileId=*{fileId})}" class="w-100" alt="No image">
+        </div>
     </div>
 </div>
 

@@ -55,6 +55,6 @@ public class AuthorController {
         fileDto.setName(file.getName());
         fileDto.setContent(file.getBytes());
         authorService.save(author, fileDto);
-        return "redirect:/index";
+        return "redirect:/";
     }
 }

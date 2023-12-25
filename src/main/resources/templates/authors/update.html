@@ -70,47 +70,48 @@
         </div>
     </nav>
 
-    <div class="container">
-        <form class="mt-3" th:action="@{/authors/create}" method="post" enctype="multipart/form-data">
+    <div class="card-body">
+        <form class="mt-3" th:action="@{/authors/update}" method="post" enctype="multipart/form-data" th:object="${author}">
+            <input type="hidden" name="id" th:field="*{id}">
 
-            <div class="mb-3">
-                <label for="firstName" class="form-label"><b>Имя</b></label>
-                <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Введите имя">
+            <div class="form-group">
+                <label for="firstName">Имя</label>
+                <input type="text" class="form-control" name="firstName" id="firstName" th:field="*{firstName}">
+            </div>
+            <div class="form-group">
+                <label for="lastName">Фамилия</label>
+                <input type="text" class="form-control" name="lastName" id="lastName" th:field="*{lastName}">
+            </div>
+            <div class="form-group">
+                <label for="biography">Биография</label>
+                <input type="text" class="form-control" name="biography" id="biography" th:field="*{biography}">
             </div>
 
-            <div class="mb-3">
-                <label for="lastName" class="form-label"><b>Фамилия</b></label>
-                <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Введите фамилию">
-            </div>
-
-            <div class="mb-3">
-                <label for="biography" class="form-label"><b>Краткая биография</b></label>
-                <input type="text" class="form-control" id="biography" name="biography" placeholder="Введите краткую биографическую информацию">
-            </div>
-
-            <div class="mb-3">
-                <label for="birthDate" class="form-label"><b>Дата рождения</b></label>
-                <input type="date" class="form-control" id="birthDate" name="birthDate" placeholder="Введите дату рождения">
-            </div>
-
-            <div class="mb-3">
-                <label for="formFile"><b>Изображение</b></label>
-                <input class="form-control form-control-sm w-100" type="file" id="formFile" name="file">
+            <div class="col-3">
+                <div class="mb-3">
+                    <img th:src="@{/files/{fileId}(fileId=*{fileId})}" class="w-100" alt="No image">
+                </div>
+                <div class="mb-3">
+                    <input class="form-control form-control-sm w-100" type="file" id="formFile" name="file">
+                </div>
             </div>
 
             <div class="mb-3 row">
                 <div class="col-6"></div>
                 <div class="col-6">
                     <div class="row">
-                        <div class="col-6"><a class="btn btn-danger w-100" th:href="@{/index}">Отмена</a></div>
-                        <div class="col-6"><button class="btn btn-primary w-100" type="submit">Зарегистрировать</button>
-                        </div>
+                        <div class="col-4"><a class="btn btn-light w-100" th:href="@{/index}">Cancel</a></div>
+                        <div class="col-4"><button class="btn btn-success w-100" type="submit">Update</button></div>
                     </div>
                 </div>
             </div>
         </form>
     </div>
 
+    <div class="authorInfo">
+        <p class="fs-1"><a th:text="${author.lastName}"></a>  <a th:text="${author.firstName}"></a> </p>
+        <p class="fs-1"><a th:text="${author.biography}"></a>  <a th:text="${author.birthDate}"></a> </p>
+    </div>
 </div>
 
 </body>

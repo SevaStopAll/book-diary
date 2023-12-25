@@ -22,6 +22,9 @@ public class SimpleBookService implements BookService {
 
     @Override
     public Book save(Book book, FileDto image) {
+        if ((Optional.ofNullable(image.getContent()).isEmpty())) {
+            book.setFileId(1);
+        }
         File savedImage = fileService.save(image);
         book.setFileId(savedImage.getId());
         return bookRepository.save(book);

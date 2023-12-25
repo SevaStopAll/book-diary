@@ -13,9 +13,11 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.sevastopall.readersDairy.dto.FileDto;
 import ru.sevastopall.readersDairy.model.Author;
 import ru.sevastopall.readersDairy.model.Book;
+import ru.sevastopall.readersDairy.model.File;
 import ru.sevastopall.readersDairy.service.AuthorService;
 import ru.sevastopall.readersDairy.service.BookService;
 import ru.sevastopall.readersDairy.service.GenreService;
+import ru.sevastopall.readersDairy.service.ReviewService;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -27,6 +29,7 @@ public class BookController {
     private final AuthorService authorService;
     private final GenreService genreService;
     private final BookService bookService;
+    private final ReviewService reviewService;
 
     @GetMapping("/create")
     public String getAuthorCreationPage(Model model) {
@@ -44,6 +47,8 @@ public class BookController {
             Author newAuthor = new Author();
             newAuthor.setFirstName(authorFirstName);
             newAuthor.setLastName(authorLastName);
+            FileDto fileDtoAuthor = new FileDto();
+            fileDtoAuthor.setName("empty");
             Author savedAuthor = authorService.save(newAuthor, new FileDto());
             book.setAuthor(savedAuthor);
         }
@@ -66,6 +71,7 @@ public class BookController {
         Book book = bookService.findById(id);
         model.addAttribute("book", book);
         model.addAttribute("genres", genreService.findAll());
+        model.addAttribute("reviews", reviewService.findByBook(book));
         return "books/one";
     }
 
@@ -75,6 +81,6 @@ public class BookController {
         fileDto.setName(file.getName());
         fileDto.setContent(file.getBytes());
         bookService.save(book, fileDto);
-        return "redirect:/index";
+        return "redirect:/";
     }
 }

@@ -1,5 +1,6 @@
 package ru.sevastopall.readersDairy.model;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Data;
 

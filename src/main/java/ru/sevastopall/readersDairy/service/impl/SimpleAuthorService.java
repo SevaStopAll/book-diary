@@ -23,11 +23,12 @@ public class SimpleAuthorService implements AuthorService {
 
     @Override
     public Author save(Author author, FileDto image) {
-        if (image.getContent() .length == 0) {
-
+        if (Optional.ofNullable(image.getContent()).isEmpty()) {
+            author.setFileId(1);
+        } else {
+            File savedImage = fileService.save(image);
+            author.setFileId(savedImage.getId());
         }
-        File savedImage = fileService.save(image);
-        author.setFileId(savedImage.getId());
         return authorRepository.save(author);
     }
 
