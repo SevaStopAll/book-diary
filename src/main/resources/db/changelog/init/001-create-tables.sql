@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS public.authors
 CREATE TABLE IF NOT EXISTS public.genres
 (
     id serial primary key,
-    title varchar(256)
+    name varchar(256)
     );
 
 -- Table: public.books
