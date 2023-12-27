@@ -15,6 +15,7 @@ import ru.sevastopall.readersDairy.model.Review;
 import ru.sevastopall.readersDairy.model.User;
 import ru.sevastopall.readersDairy.service.BookService;
 import ru.sevastopall.readersDairy.service.CommentService;
+import ru.sevastopall.readersDairy.service.ModerationService;
 import ru.sevastopall.readersDairy.service.ReviewService;
 
 import java.time.LocalDate;
@@ -32,26 +33,34 @@ public class ReviewController {
 
     private final CommentService commentService;
 
+    private final ModerationService moderationService;
+
     @GetMapping("/create")
     public String getReviewCreationPage() {
         return "reviews/create";
     }
 
     @PostMapping("/create")
-    public String saveReview(@ModelAttribute Review review, String bookName, HttpSession session) {
-        Optional<Book> mayBeBook = bookService.findByTitle(bookName);
-        if (mayBeBook.isPresent()) {
-            review.setBook(mayBeBook.get());
+    public String saveReview(@ModelAttribute Review review, String bookName, HttpSession session, Model model) {
+        if (moderationService.moderate(review.getText())) {
+            Optional<Book> mayBeBook = bookService.findByTitle(bookName);
+            if (mayBeBook.isPresent()) {
+                review.setBook(mayBeBook.get());
+            } else {
+                Book newBook = new Book();
+                newBook.setTitle(bookName);
+                Book savedBook = bookService.saveWithoutPicture(newBook);
+                review.setBook(savedBook);
+            }
+            review.setPublicationTime(LocalDateTime.now());
+            review.setUser((User) session.getAttribute("user"));
+            reviewService.save(review);
+            return "redirect:/";
         } else {
-            Book newBook = new Book();
-            newBook.setTitle(bookName);
-            Book savedBook = bookService.saveWithoutPicture(newBook);
-            review.setBook(savedBook);
+            model.addAttribute("message", "Рецензия не прошла модерацию! Обнаружено запрещенное содержание.");
+            return "error/404";
         }
-        review.setPublicationTime(LocalDateTime.now());
-        review.setUser((User) session.getAttribute("user"));
-        reviewService.save(review);
-        return "redirect:/";
+
     }
 
     @GetMapping("/all")
@@ -75,13 +84,18 @@ public class ReviewController {
     }
 
     @PostMapping("/createMessage")
-    public String saveComment(@ModelAttribute Comment message, HttpSession httpSession, String reviewId) {
-        User userSender = (User) httpSession.getAttribute("user");
-        message.setUser(userSender);
-        message.setReview(reviewService.findById(Long.parseLong(reviewId)));
-        message.setPublicationTime(LocalDate.now());
-        commentService.save(message);
-        return "redirect:/reviews/" + reviewId;
+    public String saveComment(@ModelAttribute Comment message, HttpSession httpSession, String reviewId, Model model) {
+        if (moderationService.moderate(message.getText())) {
+            User userSender = (User) httpSession.getAttribute("user");
+            message.setUser(userSender);
+            message.setReview(reviewService.findById(Long.parseLong(reviewId)));
+            message.setPublicationTime(LocalDate.now());
+            commentService.save(message);
+            return "redirect:/reviews/" + reviewId;
+        } else {
+            model.addAttribute("message", "Рецензия не прошла модерацию! Обнаружено запрещенное содержание.");
+            return "error/404";
+        }
     }
 
 }
