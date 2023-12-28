@@ -13,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.sevastopall.readersDairy.dto.FileDto;
 import ru.sevastopall.readersDairy.model.Author;
 import ru.sevastopall.readersDairy.model.Book;
-import ru.sevastopall.readersDairy.model.File;
 import ru.sevastopall.readersDairy.service.AuthorService;
 import ru.sevastopall.readersDairy.service.BookService;
 import ru.sevastopall.readersDairy.service.GenreService;
